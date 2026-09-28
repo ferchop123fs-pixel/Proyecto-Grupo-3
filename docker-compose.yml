@@ -8,10 +8,10 @@ services:
     volumes:
       - ./:/var/www/html
     environment:
-      - DB_HOST=db
-      - DB_NAME=tutorias_db
-      - DB_USER=tutorias_user
-      - DB_PASS=12345
+      - DB_HOST=${DB_HOST:-db}
+      - DB_NAME=${DB_NAME:-tutorias_db}
+      - DB_USER=${DB_USER:-tutorias_user}
+      - DB_PASS=${DB_PASS:-cambiar_esta_clave}
     depends_on:
       - db
 
@@ -22,10 +22,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: tutorias_db
-      MYSQL_USER: tutorias_user
-      MYSQL_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-cambiar_clave_root}
+      MYSQL_DATABASE: ${DB_NAME:-tutorias_db}
+      MYSQL_USER: ${DB_USER:-tutorias_user}
+      MYSQL_PASSWORD: ${DB_PASS:-cambiar_esta_clave}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -38,8 +38,8 @@ services:
       - "8080:80"
     environment:
       PMA_HOST: db
-      PMA_USER: root
-      PMA_PASSWORD: root_password
+      PMA_USER: ${PMA_USER:-root}
+      PMA_PASSWORD: ${DB_ROOT_PASSWORD:-cambiar_clave_root}
     depends_on:
       - db
 
